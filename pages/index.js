@@ -10,6 +10,7 @@ import About from '../sections/about';
 import Team from '../sections/team';
 import Footer from '../components/footer/footer';
 
+
 export default function Home() {
   return (
     <ThemeProvider theme={theme}>
