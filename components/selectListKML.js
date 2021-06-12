@@ -3,12 +3,12 @@ import { Select, Box } from 'theme-ui'
 
 import {listFilesKML} from './listFilesKml'
 
-const SelectListKML = ({user, setNameFile}) => {
+const SelectListKML = ({user, setNameFile, setUrl, setKml, kml}) => {
   return (
     <>
       <div className="selectList col-sm-4 col-md-2 pt-3">    
         <h5  className="title-select">Files KML</h5>
-        <Select className="form-control" id="eFormControlSelect1" disabled={user ? false : true}  onChange={(e)=>{setNameFile(e.target[e.target.selectedIndex].id )}}>  
+        <Select className="form-control" id="eFormControlSelect1" disabled={kml && user ? false : true}  onChange={(e)=>{setKml(null);setUrl(e.target.value);setNameFile(e.target[e.target.selectedIndex].id )}}>  
           {listFilesKML.map((i)=>{
             return (
               <optgroup key={i.month} label={i.month}>
