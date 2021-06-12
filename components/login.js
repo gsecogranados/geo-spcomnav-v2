@@ -14,7 +14,27 @@ import { fab } from '@fortawesome/free-brands-svg-icons';
 library.add(fas);
 library.add(fab);
 
-const Login = ({toggle, modal, setModal}) => {
+import {loginWithGitHub, loginWithGoogle, signInWithEmail} from '../firebase/client'
+
+const Login = ({toggle, modal, setModal, setUser}) => {
+
+  const signGitHub = () => {
+    loginWithGitHub().then(user=>{console.log(user)})
+    
+  }
+  const signGoogle = () => {
+    loginWithGoogle().then(user=>{
+      console.log(user)
+      setUser(user)
+      setModal(false)
+    })
+  }
+
+  const signIn = () =>{
+    signInWithEmail(email,pass).then((user)=>{
+      setUser(user)
+    })
+  }
   
 
   return (
@@ -27,14 +47,14 @@ const Login = ({toggle, modal, setModal}) => {
                 <small>Sign in or Sign up with</small>
               </div>
               <div className="text-center">
-                <Button className="ml-2" color="danger" >
+                <Button className="ml-2" color="danger" onClick={signGoogle} >
                   <span className="btn-wrapper--icon">
                     <FontAwesomeIcon icon={['fab', 'google']} />
                   </span>
                   <span className="btn-wrapper--label"> Google</span>
                 </Button>
                 &nbsp;&nbsp;&nbsp;
-                <Button color="dark">
+                <Button color="dark" onClick={signGitHub}>
                   <span className="btn-wrapper--icon">
                     <FontAwesomeIcon icon={['fab', 'github']} />
                   </span>

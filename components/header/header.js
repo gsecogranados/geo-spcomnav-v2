@@ -1,5 +1,5 @@
 /** @jsxImportSource theme-ui */
-import React, { useState} from 'react';
+import React, { useState, useEffect} from 'react';
 import { jsx, Container, Flex, Button} from 'theme-ui';
 import { keyframes } from '@emotion/react';
 import Link from 'next/link';
@@ -9,16 +9,22 @@ import Logo from '../logo';
 import menuItems from './header.data';
 
 import Login from '../login'
+import Avatar from '../avatar'
+
+import { onAuthStateChanged } from '../../firebase/client';
 
 
 export default function Header() {
   const [mobileMenu, setMobileMenu] = useState(false);
   const [modal, setModal] = useState(false);
+
+  const [user, setUser] = useState(undefined);
   
   const toggle = () => setModal(!modal);
-  const openCloseMobileMenu = () => {
-    setMobileMenu(!mobileMenu);
-  };
+
+  useEffect(()=>{
+    onAuthStateChanged(setUser)
+  }, []);
 
   return (
       <header sx={styles.header} className="sticky bg-transparent" id="header"> 
@@ -34,10 +40,11 @@ export default function Header() {
                 )
               })}
             </Flex>
-            <Button className="donate__btn" variant="secondary" arial-label="Get Started" onClick={toggle}>
+            {user===null && <Button className="donate__btn" variant="secondary" arial-label="Get Started" onClick={toggle}>
               Login
-            </Button>
-            <Login toggle={toggle} modal={modal} setModal={setModal}/>
+            </Button>}
+            {user && user.avatar && <Avatar src={user.avatar} username={user.username}/> }
+            <Login toggle={toggle} modal={modal} setModal={setModal} setUser={setUser}/>
 
             <button className="navbar-toggler float-right" type="button" data-toggle="collapse" data-target="#navbar" onClick = {() => setMobileMenu (! mobileMenu)}>
               <span className="navbar-toggler-icon"></span>

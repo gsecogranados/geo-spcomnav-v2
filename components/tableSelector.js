@@ -2,7 +2,7 @@ import React, { useState, useEffect} from 'react';
 import Spinner from 'react-bootstrap/Spinner'
 import TrashIcon from '../assets/trash.svg'
 
-const Table = ({url, point1, point2, setPoint1, setPoint2, user}) => {
+const Table = ({nameFile, point1, point2, setPoint1, setPoint2, user}) => {
 
   const [downloadFile, setDownloadFile] = React.useState(false);
   const [typeSPS, setTypeSPS] = React.useState('GPS')
@@ -32,7 +32,7 @@ const Table = ({url, point1, point2, setPoint1, setPoint2, user}) => {
             </thead>
             <tbody>
               <tr>
-                <td > <div className="card-body text-center mt-2 font-weight-bold" ></div></td>
+                <td > <div className="card-body text-center mt-2 font-weight-bold" >{nameFile}</div></td>
                 <td >
                    <div className="card-body d-flex  align-items-center text-center">
                     <p className="text-center mx-auto my-auto "> </p>
@@ -66,7 +66,7 @@ const Table = ({url, point1, point2, setPoint1, setPoint2, user}) => {
             </select>
         </div>
 
-        <button type='button' onClick={clickButtonDownload} className='btn btn-primary mb-5'>
+        <button type='button' onClick={clickButtonDownload} className='btn btn-primary mb-5'  disabled={user ? false : true}>
           {downloadFile==true && <Spinner
             as="span"
             animation="grow"

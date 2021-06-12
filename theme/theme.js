@@ -18,7 +18,7 @@ export default {
     modes: {
       dark: {
         text: '#fff',
-        background: '#000',
+        background: 'white',
         primary: '#0cf',
         secondary: '#09c',
         muted: '#111',
