@@ -10,11 +10,12 @@ const ProfileLog = () => {
   const [user, setUser] = useState(undefined);
   const [table, setTable] = useState(undefined)
 
-  useEffect(async ()=>{
-    await onAuthStateChanged(setUser)
+  useEffect(()=>{
+    onAuthStateChanged(setUser)
     getFiles().then((e)=>{setTable(e); console.log(e)})
     
   }, []);
+
   return (
     <Box id="home" as="section" variant="section.banner" sx={styles.container}>
       <Box sx={styles.boxTitle}>
@@ -31,7 +32,8 @@ const ProfileLog = () => {
           <h2>{user.username}</h2>
           
         </div>
-        { table && table.length!==0 ? 
+        {table && table.length==0 && <span>Nothing</span>}
+        { table && table.length!==0 && 
         <div className="mt-2">
           <div className="table-responsive">
             <div className="table-wrapper d-flex justify-content-center">  
@@ -78,7 +80,7 @@ const ProfileLog = () => {
             </div>
           </div>
         </div>
-        :<span>Nothing</span>}
+        }
       </div>
      }
     </Box>

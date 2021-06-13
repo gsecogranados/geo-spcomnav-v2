@@ -14,9 +14,15 @@ import { fab } from '@fortawesome/free-brands-svg-icons';
 library.add(fas);
 library.add(fab);
 
+import SignUp from '../components/signup';
+
 import {loginWithGitHub, loginWithGoogle, signInWithEmail} from '../firebase/client'
 
 const Login = ({toggle, modal, setModal, setUser}) => {
+
+  const [modalSignUp, setModalSignUp] = useState(false);
+  const [email, setEmail] = useState(undefined);
+  const [pass, setPass] = useState(undefined);
 
   const signGitHub = () => {
     loginWithGitHub().then(user=>{console.log(user)})
@@ -33,9 +39,14 @@ const Login = ({toggle, modal, setModal, setUser}) => {
   const signIn = () =>{
     signInWithEmail(email,pass).then((user)=>{
       setUser(user)
+      setModal(false);
     })
   }
   
+  const createAccount = () =>{
+    setModal(!modal);
+    setModalSignUp(!modalSignUp);
+  }
 
   return (
     <>
@@ -73,7 +84,7 @@ const Login = ({toggle, modal, setModal, setUser}) => {
                         <FontAwesomeIcon icon={['fas', 'envelope']} />&nbsp;
                       </InputGroupText>
                     </div>
-                    <Input placeholder="Email" type="email" />
+                    <Input placeholder="Email" type="email" onChange={event => setEmail(event.target.value)} />
                   </div>
                 </div>
                 <FormGroup>
@@ -83,13 +94,13 @@ const Login = ({toggle, modal, setModal, setUser}) => {
                         <FontAwesomeIcon icon={['fas', 'unlock-alt']} />&nbsp;
                       </InputGroupText>
                     </div>
-                    <Input placeholder="Password" type="password" />
+                    <Input placeholder="Password" type="password" onChange={event => setPass(event.target.value)}/>
                   </div>
                 </FormGroup>
-                <Button className="btn btn-light btn-sm mt-2" >Create Account </Button>
+                <Button className="btn btn-light btn-sm mt-2" onClick={createAccount}>Create Account </Button>
                 
                 <div className="text-center">
-                  <Button color="secondary" className="mt-4 shadow-lg">
+                  <Button color="secondary" className="mt-4 shadow-lg" onClick={signIn}>
                     Sign in
                   </Button>
                 </div>
@@ -98,7 +109,7 @@ const Login = ({toggle, modal, setModal, setUser}) => {
           </Card>
         </div>
       </Modal>
-     
+      {modalSignUp && <SignUp modalSignUp={modalSignUp} setModalSignUp={setModalSignUp} setModalLogin={setModal} setUser={setUser}/>}
     </>
   )
 }

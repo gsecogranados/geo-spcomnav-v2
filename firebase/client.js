@@ -76,20 +76,27 @@ export const addDB = (fileKML, point1, point2, typeSPS) =>{
 }
 
 export const getFiles = () => {
-  const user =  firebase.auth().currentUser
-  return dbF.collection(user.uid).get().then((snapshot)=>{
-    return snapshot.docs.map((doc)=>{
-      const data = doc.data()
-      const id = doc.id
-      const {date} = data
-      const intl = new Intl.DateTimeFormat('es-ES', { dateStyle: 'full', timeStyle: 'short' })
-      const normalizedDate = intl.format(new Date(date.seconds*1000))
-      return {
-        ...data,
-        id,
-        date: normalizedDate
+  return new Promise ((res, rej)=>{
+    firebase.auth().onAuthStateChanged(function(user) {
+      if (user) {
+        res(dbF.collection(user.uid).get().then((snapshot)=>{
+          return snapshot.docs.map((doc)=>{
+            const data = doc.data()
+            const id = doc.id
+            const {date} = data
+            const intl = new Intl.DateTimeFormat('es-ES', { dateStyle: 'full', timeStyle: 'short' })
+            const normalizedDate = intl.format(new Date(date.seconds*1000))
+            return {
+              ...data,
+              id,
+              date: normalizedDate
+            }
+          })
+        }))
+      } else {
+        return null;
       }
-    })
+    });
   })
 }
 
