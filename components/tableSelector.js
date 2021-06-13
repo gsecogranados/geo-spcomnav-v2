@@ -7,7 +7,6 @@ const Table = ({nameFile, point1, point2, setPoint1, setPoint2, user}) => {
   const [downloadFile, setDownloadFile] = React.useState(false);
   const [typeSPS, setTypeSPS] = React.useState('GPS')
 
-
   useEffect(() => {
     
   }, []);
@@ -35,7 +34,7 @@ const Table = ({nameFile, point1, point2, setPoint1, setPoint2, user}) => {
                 <td > <div className="card-body text-center mt-2 font-weight-bold" >{nameFile}</div></td>
                 <td >
                    <div className="card-body d-flex  align-items-center text-center">
-                    <p className="text-center mx-auto my-auto "> </p>
+                    <p className="text-center mx-auto my-auto ">{point1}</p>
                     <button type="button" className=" mx-start justify-content-end btn btn-outline-secondary" onClick={()=>{setPoint1(null)}}>
                       <img src={TrashIcon}/>
                     </button> 
@@ -44,7 +43,7 @@ const Table = ({nameFile, point1, point2, setPoint1, setPoint2, user}) => {
                 </td>
                 <td  >
                  <div className="card-body d-flex justify-content-between align-items-center">
-                  <p className="text-center  mx-auto my-auto "></p> 
+                  <p className="text-center  mx-auto my-auto ">{point2}</p> 
                   <button type="button" className="mx-start justify-content-end btn btn-outline-secondary" onClick={()=>{setPoint2(null)}}>
                     <img src={TrashIcon} style={{color:'white'}}/>
                   </button>

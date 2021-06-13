@@ -1,5 +1,5 @@
 /** @jsxImportSource theme-ui */
-import React, {useEffect, useState} from 'react';
+import React, {useEffect, useState, useRef} from 'react';
 import Card from 'react-bootstrap/Card'
 import { jsx, Box, Heading} from 'theme-ui';
 import { Map, TileLayer, Marker, Popup} from "react-leaflet";
@@ -17,21 +17,25 @@ import 'react-leaflet-markercluster/dist/styles.min.css';
 
 
 import SelectListKML from '../components/selectListKML'
-import Table from '../components/tableSelector'
-
+import PopUp from '../components/popup';
 
 
 const MapD = () => {
   const [user, setUser] = useState(undefined);
   const [nameFile, setNameFile] = useState('20140424_A1.GE.kml');
   const [kml, setKml] = useState(null);
-  const [url, setUrl] = useState("/IGNSSRX/SCENARIOS/VIPER/TRUTH/Apr/20140424/A1/20140424_A1.GE.kml")
+  const [url, setUrl] = useState("/IGNSSRX/SCENARIOS/VIPER/TRUTH/Apr/20140424/A1/20140424_A1.GE.kml");
+
+  const [map, setMap] = useState(null);
+  const mapRef = useRef();
 
   useEffect(async ()=>{
     await onAuthStateChanged(setUser)
     getKML(url).then((kml)=>{
       setKml(kml)
     })  
+    if (!mapRef.current) return;
+    setMap(mapRef.current.leafletElement);
        
   }, [url]);
 
@@ -52,7 +56,7 @@ const MapD = () => {
           {!kml && 
               <div className="spinner"/>
           }  
-          <Map minZoom={5} animate={false} updateWhenZooming={false} center={[51.505, -0.09]} zoom={7} style={{height: "60vh"}}>
+          <Map ref={mapRef} minZoom={5} animate={false} updateWhenZooming={false} center={[51.505, -0.09]} zoom={7} style={{height: "60vh"}}>
             <TileLayer
                 attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
                 url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
@@ -64,7 +68,7 @@ const MapD = () => {
         </Card>
         </div>
       </div>  
-      <Table nameFile={nameFile} user={user}/>   
+      {map && <PopUp map={map} url={url} user={user} nameFile={nameFile}/> }
     </Box>
   )
 
