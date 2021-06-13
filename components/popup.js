@@ -72,7 +72,7 @@ const PopUp = ({map,url, user, nameFile})=> {
   }, []);
 
   return (
-    <TableSelector nameFile={nameFile} user={user} setPoint1={setPoint1} setPoint2={setPoint2} point1={point1} point2={point2}/>
+    <TableSelector nameFile={nameFile} user={user} setPoint1={setPoint1} setPoint2={setPoint2} point1={point1} point2={point2} url={url}/>
     
   )
 }

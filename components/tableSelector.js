@@ -2,10 +2,12 @@ import React, { useState, useEffect} from 'react';
 import Spinner from 'react-bootstrap/Spinner'
 import TrashIcon from '../assets/trash.svg'
 
-const Table = ({nameFile, point1, point2, setPoint1, setPoint2, user}) => {
+import {getSamples} from '../services/getSamples';
 
-  const [downloadFile, setDownloadFile] = React.useState(false);
-  const [typeSPS, setTypeSPS] = React.useState('GPS')
+const Table = ({nameFile, point1, point2, setPoint1, setPoint2, user, url}) => {
+
+  const [downloadFile, setDownloadFile] = useState(false);
+  const [typeSPS, setTypeSPS] = useState('GPS')
 
   useEffect(() => {
     
@@ -13,6 +15,12 @@ const Table = ({nameFile, point1, point2, setPoint1, setPoint2, user}) => {
   
   const clickButtonDownload = ()=>{
     setDownloadFile(true);
+    if(point1<point2){
+      getSamples(url,  point1, point2, typeSPS).then(()=>{setDownloadFile(false)}).catch(()=>setDownloadFile(false))
+    }else{
+      alert('Start Point must be less than End Point') 
+      setDownloadFile(false)
+    }
     
   }
 
@@ -65,7 +73,7 @@ const Table = ({nameFile, point1, point2, setPoint1, setPoint2, user}) => {
             </select>
         </div>
 
-        <button type='button' onClick={clickButtonDownload} className='btn btn-primary mb-5'  disabled={user ? false : true}>
+        <button type='button' onClick={clickButtonDownload} className='btn btn-primary mb-5'  disabled={downloadFile==false && user ? false : true}>
           {downloadFile==true && <Spinner
             as="span"
             animation="grow"
