@@ -1,9 +1,11 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { ThemeProvider, Text} from 'theme-ui';
 import theme from '../theme/theme';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 import dynamic from "next/dynamic";
+
+import Skeleton from '@material-ui/lab/Skeleton';
 
 
 import Layout from '../components/layout'
@@ -11,6 +13,7 @@ import SEO from '../components/seo';
 import Footer from '../components/footer/footer';
 
 export default function Map() {
+
   const MapWithNoSSR = dynamic(() => import("../components/map"), {
     ssr: false
   });
@@ -18,10 +21,9 @@ export default function Map() {
     <ThemeProvider theme={theme}>
       <Layout>
         <SEO title="Map - Geo Spcomnav"/>
-        
-        <MapWithNoSSR/>
+        {/*!loadComponent && <Skeleton variant="rect" height={'100vh'} /> */}
+        <MapWithNoSSR />
         <Footer/>
-       
       </Layout>   
     </ThemeProvider>
   )

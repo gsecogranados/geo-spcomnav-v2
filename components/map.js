@@ -36,7 +36,6 @@ const MapD = () => {
     })  
     if (!mapRef.current) return;
     setMap(mapRef.current.leafletElement);
-       
   }, [url]);
 
   return (
@@ -47,7 +46,7 @@ const MapD = () => {
           Welcome to SCPOMNAV!
         </Heading>
       </Box>
-
+     
       <div className="row m-3">
         <SelectListKML user={user} setNameFile={setNameFile} setUrl={setUrl} setKml={setKml} kml={kml}/>
         <div className="col-sm-8 col-sm-offset-4 col-md-10 col-md-offset-3"> 

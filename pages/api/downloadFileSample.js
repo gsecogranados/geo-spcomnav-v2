@@ -1,6 +1,6 @@
 const { Client } = require('ssh2');
 const fs = require('fs');
-const conn = new Client();
+
 //
 let Client2 = require('ssh2-sftp-client');
 let sftpList = new Client2();
@@ -14,20 +14,29 @@ const sftpConfig = {
 }
 
 const getList = async (body) =>{
-  return await sftpList.connect(sftpConfig).then(async ()=>{
-    const result = await sftpList.list(body.path);
-    var arrayFiles=[]
-    result.map((i)=>{
-      if(i.name.includes(body.file) && i.name.includes(body.intent)){
-       if(body.point1.split(':')[0]===i.name.split('.')[1]){
-        var hh= i.name.split('.')[1]
-        var mm = i.name.split('.')[2] 
-        arrayFiles.push({file:i.name, hh:hh, mm:mm, mmIni: body.point1.split(':')[1], mmFi: body.point2.split(':')[1], ssIni:body.point1.split(':')[2], ssFi:body.point2.split(':')[2]  })
-       }
-      }
+  try {
+    return await sftpList.connect(sftpConfig).then(async ()=>{
+      const result = await sftpList.list(body.path);
+      var arrayFiles=[]
+      result.map((i)=>{
+        if(i.name.includes(body.file) && i.name.includes(body.intent)){
+         if(body.point1.split(':')[0]===i.name.split('.')[1]){
+          var hh= i.name.split('.')[1]
+          var mm = i.name.split('.')[2] 
+          arrayFiles.push({file:i.name, hh:hh, mm:mm, mmIni: body.point1.split(':')[1], mmFi: body.point2.split(':')[1], ssIni:body.point1.split(':')[2], ssFi:body.point2.split(':')[2]  })
+         }
+        }
+      })
+      return arrayFiles
     })
-    return arrayFiles
-  })
+  } catch (e) {
+    console.error(e.message); 
+  } finally {
+    console.log('Closing session...');
+    await sftpList.end();
+    console.log('Session closed.');
+  }
+ 
 }
 
 const selectFile = (posiblesFiles, body)=>{
@@ -59,6 +68,7 @@ const selectInterval = (file, typeGNSS)=>{
 
 
 export default async (req,res) =>{
+  const conn = new Client();
   conn.on('ready', () => {
     console.log('Client :: ready');
     conn.sftp(async (err, sftp) => {
