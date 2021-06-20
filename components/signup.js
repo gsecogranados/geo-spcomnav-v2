@@ -19,6 +19,8 @@ import Router from "next/router";
 
 import { loginWithEmail, onAuthStateChanged, addUserName } from '../firebase/client'
 
+import {checkToken} from '../services/checkToken'
+
 const SignUp = ({modalSignUp, setModalSignUp, setModalLogin, setUser}) => {
   const [email, setEmail] = useState(undefined)
   const [username, setUsername] = useState(undefined)
@@ -32,7 +34,14 @@ const SignUp = ({modalSignUp, setModalSignUp, setModalLogin, setUser}) => {
   }
 
   const SignUp = () => {
-    loginWithEmail(email, pass, username).then((user)=>{console.log(user); setUser(user); Router.reload("/")})
+    var token = prompt("Enter Token (If you do not have one, contact gonzalo.seco@uab.cat)")
+    checkToken(token).then((ok)=>{
+      if(ok){
+         loginWithEmail(email, pass, username).then((user)=>{console.log(user); setUser(user); Router.reload("/")})
+      }else{
+        alert("Token don't match")
+      }
+    })
   }
   return (
     <>

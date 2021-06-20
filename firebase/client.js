@@ -104,3 +104,18 @@ export const getUser = () => {
   const user =  firebase.auth().currentUser
   return (mapUserFromFirebaseAuthToUser(user))
 }
+
+export const addToken = (token) => {
+  return dbF.collection('token').doc('token').set({
+    token
+  })
+}
+
+export const getToken = () => {
+  return dbF.collection('token').get().then((snapshot)=>{
+    return snapshot.docs.map((doc)=>{
+      const data = doc.data()
+     return data
+    })
+  })
+}

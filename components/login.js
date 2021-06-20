@@ -18,18 +18,32 @@ import SignUp from '../components/signup';
 
 import {loginWithGitHub, loginWithGoogle, signInWithEmail} from '../firebase/client'
 
+import {checkToken} from '../services/checkToken';
+
 const Login = ({toggle, modal, setModal, setUser}) => {
 
   const [modalSignUp, setModalSignUp] = useState(false);
   const [email, setEmail] = useState(undefined);
   const [pass, setPass] = useState(undefined);
 
+  const valToken = () => {
+    var token = prompt("Enter Token (If you do not have one, contact gonzalo.seco@uab.cat)")
+    checkToken(token).then((ok)=>{
+      if(ok){
+         return true;
+      }else{
+        alert("Token don't match")
+      }
+    })
+  }
   const signGitHub = () => {
-    loginWithGitHub().then(user=>{console.log(user)})
+    var ok = valToken();
+    ok && loginWithGitHub().then(user=>{console.log(user)})
     
   }
   const signGoogle = () => {
-    loginWithGoogle().then(user=>{
+    var ok = valToken()
+    ok && loginWithGoogle().then(user=>{
       console.log(user)
       setUser(user)
       setModal(false)
