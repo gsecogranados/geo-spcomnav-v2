@@ -3,7 +3,16 @@ import 'firebase/firestore'
 import 'firebase/database'
 import 'firebase/auth'
 
-const firebaseConfig = JSON.parse(process.env.NEXT_PUBLIC_FIREBASE_CONFIG);
+const firebaseConfig = {
+  apiKey: "AIzaSyBicMt52mBBa33I9bN_udpPgS5fYmWedIM",
+  authDomain: "tfg2-geospcomnav.firebaseapp.com",
+  databaseURL: "https://tfg2-geospcomnav-default-rtdb.europe-west1.firebasedatabase.app",
+  projectId: "tfg2-geospcomnav",
+  storageBucket: "tfg2-geospcomnav.appspot.com",
+  messagingSenderId: "719213246635",
+  appId: "1:719213246635:web:4ddacf63c12a3b5735dfee",
+  measurementId: "G-J658HKTEZ9"
+};
 
 !firebase.apps.length && firebase.initializeApp(firebaseConfig)
 

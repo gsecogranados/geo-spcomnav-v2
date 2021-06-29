@@ -2,6 +2,7 @@
 import { jsx, Box, Container, Heading, Text, Button, Image } from 'theme-ui';
 import {Card} from 'reactstrap'
 import BannerBG from '../assets/bg.png';
+import PhotoPeatonal from '../assets/peaton2.png'
 
 const About = () => {
   return (
@@ -15,6 +16,7 @@ const About = () => {
 
         <Box sx={styles.contentWrapper}>
           <Box sx={styles.content}>
+            <Image src={PhotoPeatonal}></Image>
             
           </Box>
           <Box sx={styles.content}>
