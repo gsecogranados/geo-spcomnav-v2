@@ -10,7 +10,7 @@ const Banner = () => {
       <Container>
       <Box sx={styles.boxTitle}>
         <Heading sx={styles.title}>
-          Welcome to SCPOMNAV!
+          Welcome to SPCOMNAV!
         </Heading>
       </Box>
         <Box sx={styles.contentWrapper}>
