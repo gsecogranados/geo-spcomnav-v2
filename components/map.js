@@ -43,7 +43,7 @@ const MapD = () => {
     <Box id="home" as="section" variant="section.banner" sx={styles.banner}>
       <Box sx={styles.boxTitle}>
         <Heading sx={styles.title}>
-          Welcome to SCPOMNAV!
+          Welcome to SPCOMNAV!
         </Heading>
       </Box>
      
